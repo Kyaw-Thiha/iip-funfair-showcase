@@ -101,7 +101,8 @@ export default defineComponent({
 .hero::before {
   content: '';
   opacity: 0.8;
-  background-image: url('hero.jpg');
+  //background-image: url('hero.jpg');
+  background-image: url('https://images.unsplash.com/photo-1533900298318-6b8da08a523e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
