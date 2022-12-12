@@ -44,8 +44,4 @@ h6 {
 
 .full-screen {
   min-height: 80vh;
-
-  @media screen and (max-width: $breakpoint-xs-max) {
-    min-height: 90vh;
-  }
 }

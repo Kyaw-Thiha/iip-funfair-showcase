@@ -1,37 +1,51 @@
 <template>
   <q-carousel
     class="full-screen"
+    control-color="primary"
     navigation
     arrows
     animated
     transition-prev="jump-right"
     transition-next="jump-left"
     swipeable
+    infinite
+    autoplay
     v-model="slide"
   >
     <q-carousel-slide
+      class="row"
       v-for="(product, index) in products"
       :key="index"
       :name="index"
-      :img-src="product['image']"
     >
-      <div class="row items-center justify-evenly" style="min-height: 90%">
-        <div class="product-info q-mt-xl q-pa-md">
-          <h1 class="text-primary q-my-sm q-pa-none">
-            {{ product['name'] }}
-          </h1>
-          <h3 class="q-mt-lg">
-            {{ product['productType'] }}
-          </h3>
-          <q-btn
-            label="Buy Ticket"
-            class="text-white float-right"
-            size="lg"
-            outline
-            color="primary"
-            :ripple="{ early: true }"
-            :to="{ name: 'product-detail', params: { id: product.id } }"
-          />
+      <div class="col-md-6 col-sm-12">
+        <q-img
+          class="product-image"
+          :src="product.image"
+          :alt="product.name"
+          fit="contain"
+        />
+      </div>
+
+      <div class="col-md-6 col-sm-12">
+        <div class="row items-center justify-evenly full-height">
+          <div class="product-info">
+            <h1 class="text-primary text-center q-my-sm q-pa-none">
+              {{ product['name'] }}
+            </h1>
+            <h3 class="q-mt-lg text-center">
+              {{ product['productType'] }}
+            </h3>
+            <div class="text-center">
+              <q-btn
+                label="Buy Ticket"
+                size="lg"
+                color="primary"
+                :ripple="{ early: true }"
+                :to="{ name: 'product-detail', params: { id: product.id } }"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </q-carousel-slide>
@@ -62,7 +76,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.product-image {
+  height: 550px;
+}
+
 .product-info {
-  backdrop-filter: blur(8px);
+  border-radius: 20px;
+  border: 3px;
+  background-color: $secondary;
+  padding: 40px;
 }
 </style>

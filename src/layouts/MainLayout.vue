@@ -13,7 +13,7 @@
               <q-avatar size="80px">
                 <img src="logo.jpg" />
               </q-avatar>
-              <h2 class="q-ml-md q-my-sm text-h3">IIP Fun Fair</h2>
+              <h2 class="q-ml-md q-my-sm text-h3 gt-sm">IIP Fun Fair</h2>
             </div>
           </q-btn>
         </q-toolbar-title>
@@ -22,7 +22,7 @@
           <q-btn
             label="Sign In"
             color="primary"
-            size="lg"
+            :size="screenSizeIsSm ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'sign-in' }"
           />
@@ -33,14 +33,14 @@
             outline
             label="My Shop"
             color="primary"
-            size="lg"
+            :size="screenSizeIsSm ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'my-shop' }"
           />
           <q-btn
             label="Tickets"
             color="primary"
-            size="lg"
+            :size="screenSizeIsSm ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'purchased-tickets' }"
           />
@@ -55,14 +55,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {},
   setup() {
+    const $q = useQuasar();
+    const screenSizeIsSm = computed(() => {
+      return $q.screen.lt.sm;
+    });
+
     const isLoggedIn = ref(true);
+
     return {
+      screenSizeIsSm,
       isLoggedIn,
     };
   },
