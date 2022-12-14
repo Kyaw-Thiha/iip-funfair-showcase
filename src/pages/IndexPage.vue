@@ -1,23 +1,33 @@
 <template>
   <q-page>
     <section class="full-screen hero row items-center justify-evenly">
-      <div class="hero-text text-center q-pa-lg">
-        <h1 class="text-primary q-mt-none q-mb-md">IIP Fun Fair</h1>
+      <div class="hero-text text-center q-pa-md-lg q-pa-sm-xs q-pa-xs-xs">
+        <h1 class="text-primary q-mt-none q-mb-xl q-mb-sm-md q-mb-xs-sm">
+          IIP Fun Fair
+        </h1>
         <h3 class="text-white q-mb-none q-mb-sm">coming Dec 21st</h3>
       </div>
     </section>
+
+    <q-separator v-if="screen.lt.md" class="q-my-md" inset color="primary" />
 
     <section class="full-screen">
       <product-carousel :products="products" />
     </section>
     <section class="full-screen q-mb-xl">
-      <h2 class="text-center q-mt-xl">Products</h2>
+      <h3 class="text-center products-title">Products</h3>
       <div class="row items-center justify-evenly">
-        <q-input class="col-8" outlined v-model="searchString" label="Search" />
+        <q-input
+          class="col-8"
+          :dense="screen.lt.md"
+          outlined
+          v-model="searchString"
+          label="Search"
+        />
 
         <q-btn
           class="col-1 id-input-btn"
-          size="lg"
+          :size="screen.lt.md ? 'md' : 'lg'"
           icon="search"
           color="primary"
           @click="search"
@@ -26,11 +36,11 @@
       </div>
       <div
         class="row justify-around q-mt-xl"
-        style="column-gap: 30px; row-gap: 60px"
+        style="column-gap: 10px; row-gap: 60px"
       >
         <product-card
-          class="col-md-3 col-sm-5 col-xs-12 product-card"
-          v-for="product in products"
+          class="col-md-3 col-sm-5 col-xs-12"
+          v-for="product in selectedProducts"
           :key="product.id"
           :id="product.id"
           :image="product.image"
@@ -45,14 +55,27 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+import { useQuasar } from 'quasar';
 
 import ProductCarousel from 'components/ProductCarousel.vue';
 import ProductCard from 'components/ProductCard.vue';
+import internal from 'stream';
+
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  productType: string;
+  price: number;
+}
 
 export default defineComponent({
   name: 'IndexPage',
   components: { ProductCarousel, ProductCard },
   setup() {
+    const $q = useQuasar();
+    const screen = $q.screen;
+
     const products = reactive([
       {
         id: '0',
@@ -80,12 +103,39 @@ export default defineComponent({
       },
     ]);
 
+    var selectedProducts = reactive(JSON.parse(JSON.stringify(products)));
+
     const searchString = ref('');
     const search = () => {
-      console.log('searching...');
+      if (searchString.value != '') {
+        //Filtering the products based on search string
+        const filteredProducts = products.filter((product) => {
+          const lowerProductName = product.name.toLowerCase();
+          const lowerProductType = product.productType.toLowerCase();
+
+          return (
+            lowerProductName.includes(searchString.value) ||
+            lowerProductType.includes(searchString.value)
+          );
+        });
+
+        //Removing all initial products
+        selectedProducts.forEach((item: Product) => selectedProducts.pop());
+        selectedProducts.pop(); //Removing the last remaining element
+
+        //Adding back the filtered products
+        filteredProducts.forEach((item) => selectedProducts.push(item));
+      } else {
+        //Removing all initial products
+        selectedProducts.forEach((item: Product) => selectedProducts.pop());
+        selectedProducts.pop(); //Removing the last remaining element
+
+        //Adding back the filtered products
+        products.forEach((item) => selectedProducts.push(item));
+      }
     };
 
-    return { products, searchString, search };
+    return { screen, products, selectedProducts, searchString, search };
   },
 });
 </script>
@@ -117,5 +167,20 @@ export default defineComponent({
 .hero-text {
   backdrop-filter: blur(8px);
   border-radius: 25px;
+}
+
+.products-title {
+  margin-top: 52px;
+  margin-bottom: 80px;
+
+  @media screen and (max-width: $breakpoint-sm-max) {
+    margin-top: 48px;
+    margin-bottom: 60px;
+  }
+
+  @media screen and (max-width: $breakpoint-sm-max) {
+    margin-top: 48px;
+    margin-bottom: 40px;
+  }
 }
 </style>

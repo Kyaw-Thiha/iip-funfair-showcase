@@ -17,10 +17,11 @@
           size="xl"
           color="primary"
           :ripple="{ early: true }"
+          @click="isPurchaseDialogOpen = true"
         />
       </div>
     </section>
-    <section class="full-screen">
+    <section class="full-screen q-mt-xl">
       <h3 class="text-center q-mb-xl">Members</h3>
       <div class="row q-mx-lg q-mx-sm-sm">
         <div
@@ -52,24 +53,36 @@
           color="primary"
           :ripple="{ early: true }"
           rounded
+          @click="isPurchaseDialogOpen = true"
         />
       </div>
     </section>
+
+    <purchase-dialog
+      :name="product.name"
+      :price="product.price"
+      v-model="isPurchaseDialogOpen"
+      @bought="router.push({ name: 'purchased-tickets' })"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
+import PurchaseDialog from 'src/components/PurchaseDialog.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'ProductDetailPage',
-  components: {},
+  components: { PurchaseDialog },
   setup() {
+    const router = useRouter();
+
     const product = reactive({
       name: 'Good Foods',
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      price: 5000.0,
+      price: 5000,
       image:
         'https://www.allrecipes.com/thmb/QuBtUMOkpdH27PWiVzmyqupAik0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/228272_All-American-Burger-Dog_Christina_871688_original-1x1-1-8b15114941d54f2dbd3b6afbf033a9db.jpg',
       members: [
@@ -96,8 +109,12 @@ export default defineComponent({
       ],
     });
 
+    const isPurchaseDialogOpen = ref(false);
+
     return {
+      router,
       product,
+      isPurchaseDialogOpen,
     };
   },
 });

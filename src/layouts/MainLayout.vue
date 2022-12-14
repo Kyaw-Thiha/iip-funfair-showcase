@@ -6,13 +6,20 @@
           <q-btn
             class="text-primary"
             flat
+            :dense="screen.lt.md"
             :ripple="{ early: true }"
             :to="{ name: 'home' }"
           >
             <div class="row items-center no-wrap">
-              <q-avatar size="80px">
-                <img src="logo.jpg" />
+              <q-avatar :size="screen.lt.md ? '48px' : '80px'">
+                <img src="logo.png" />
               </q-avatar>
+              <q-separator
+                class="q-ml-md gt-sm"
+                size="3px"
+                vertical
+                color="primary"
+              />
               <h2 class="q-ml-md q-my-sm text-h3 gt-sm">IIP Fun Fair</h2>
             </div>
           </q-btn>
@@ -22,7 +29,7 @@
           <q-btn
             label="Sign In"
             color="primary"
-            :size="screenSizeIsSm ? 'md' : 'lg'"
+            :size="screen.lt.md ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'sign-in' }"
           />
@@ -33,14 +40,14 @@
             outline
             label="My Shop"
             color="primary"
-            :size="screenSizeIsSm ? 'md' : 'lg'"
+            :size="screen.lt.md ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'my-shop' }"
           />
           <q-btn
             label="Tickets"
             color="primary"
-            :size="screenSizeIsSm ? 'md' : 'lg'"
+            :size="screen.lt.md ? 'md' : 'lg'"
             :ripple="{ early: true }"
             :to="{ name: 'purchased-tickets' }"
           />
@@ -55,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useQuasar } from 'quasar';
 
 export default defineComponent({
@@ -63,14 +70,12 @@ export default defineComponent({
   components: {},
   setup() {
     const $q = useQuasar();
-    const screenSizeIsSm = computed(() => {
-      return $q.screen.lt.sm;
-    });
+    const screen = $q.screen;
 
     const isLoggedIn = ref(true);
 
     return {
-      screenSizeIsSm,
+      screen,
       isLoggedIn,
     };
   },

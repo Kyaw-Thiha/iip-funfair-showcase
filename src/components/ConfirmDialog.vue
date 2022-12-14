@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="isOpen" :persistent="false">
-    <q-card>
+    <q-card class="card">
       <q-card-section>
         <h4>{{ title }}</h4>
       </q-card-section>

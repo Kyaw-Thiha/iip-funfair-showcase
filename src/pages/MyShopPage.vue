@@ -13,7 +13,7 @@
           Price: {{ product.price }}
         </h4>
         <q-btn
-          class="float-right"
+          class="q-mb-md q-mb-md-none q-mb-lg-none float-right"
           label="Edit Shop"
           size="xl"
           color="primary"
@@ -22,7 +22,7 @@
         />
       </div>
     </section>
-    <section class="full-screen">
+    <section class="full-screen q-mt-xl">
       <h3 class="text-center q-mb-xl">Members</h3>
       <div class="row q-mx-lg q-mx-sm-sm">
         <div
@@ -48,22 +48,26 @@
       </div>
       <div class="q-mt-lg text-center">
         <q-btn
-          class="add-member-btn q-mt-xl"
-          label="Add Members"
+          class="main-btn q-mt-xl"
+          label="Invite Members"
           size="xl"
           color="primary"
           :ripple="{ early: true }"
           rounded
+          @click="inviteMemberDialog = true"
         />
       </div>
     </section>
-    <q-separator inset />
+    <q-separator
+      class="q-mb-lg q-mb-sm-xl q-mt-xl q-mt-sm-lg q-mt-md-none"
+      inset
+    />
 
     <section>
-      <h3 class="text-center q-mb-xl">Tickets</h3>
-      <div class="q-mt-lg text-center">
+      <h3 class="text-center q-mb-sm q-mb-sm-xl">Tickets</h3>
+      <div class="q-mt-md text-center">
         <q-btn
-          class="add-member-btn text-primary q-mt-xl q-mx-md"
+          class="main-btn text-primary q-mt-xl q-mx-md"
           label="See All Tickets"
           outline
           size="xl"
@@ -72,7 +76,7 @@
           :to="{ name: 'sold-tickets' }"
         />
         <q-btn
-          class="add-member-btn q-mt-xl q-mx-md"
+          class="main-btn q-mt-xl q-mx-md"
           label="Manage Tickets"
           size="xl"
           color="primary"
@@ -81,15 +85,21 @@
         />
       </div>
     </section>
+
+    <invite-member-dialog
+      v-model="inviteMemberDialog"
+      @userAdded="inviteMemberDialog = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
+import InviteMemberDialog from 'src/components/InviteMemberDialog.vue';
 
 export default defineComponent({
   name: 'ProductDetailPage',
-  components: {},
+  components: { InviteMemberDialog },
   setup() {
     const product = reactive({
       name: 'Good Foods',
@@ -122,8 +132,11 @@ export default defineComponent({
       ],
     });
 
+    const inviteMemberDialog = ref(false);
+
     return {
       product,
+      inviteMemberDialog,
     };
   },
 });
@@ -161,7 +174,7 @@ export default defineComponent({
   border-radius: 20px;
 }
 
-.add-member-btn {
+.main-btn {
   width: 400px;
 
   @media screen and (max-width: $breakpoint-xs-max) {
