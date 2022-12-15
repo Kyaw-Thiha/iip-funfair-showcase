@@ -44,6 +44,20 @@
           @click="confirm"
         />
       </div>
+
+      <div>
+        <div class="text-center q-mt-lg">
+          <q-btn
+            class="confirm-btn"
+            label="Already have an account? Sign in instead!"
+            flat
+            color="primary"
+            size="md"
+            :ripple="{ early: true }"
+            @click="router.push({ name: 'sign-in' })"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -66,8 +80,8 @@ export default defineComponent({
       'Section A',
       'Section B',
       'Section C',
-      'Section D',
-      'Section E',
+      'Year-8',
+      'Year-9',
       'Alumni',
     ]);
 
@@ -76,7 +90,7 @@ export default defineComponent({
       router.push({ name: 'home' });
     };
 
-    return { email, password, name, className, classes, confirm };
+    return { email, password, name, className, classes, confirm, router };
   },
 });
 </script>

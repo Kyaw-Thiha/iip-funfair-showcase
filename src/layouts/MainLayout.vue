@@ -38,6 +38,15 @@
           <q-btn
             class="q-mx-md"
             outline
+            label="Login"
+            color="primary"
+            :size="screen.lt.md ? 'md' : 'lg'"
+            :ripple="{ early: true }"
+            :to="{ name: 'sign-in' }"
+          />
+          <q-btn
+            class="q-mx-md"
+            outline
             label="My Shop"
             color="primary"
             :size="screen.lt.md ? 'md' : 'lg'"

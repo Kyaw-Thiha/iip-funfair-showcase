@@ -47,6 +47,17 @@
         class="input"
         outlined
         bottom-slots
+        v-model="product.saleDate"
+        label="Product Type"
+        ><template v-slot:hint>
+          <p>When are you selling?</p>
+          <p>20th or 21st</p>
+        </template>
+      </q-input>
+      <q-input
+        class="input"
+        outlined
+        bottom-slots
         v-model="product.price"
         label="Price"
         ><template v-slot:hint>
@@ -104,6 +115,7 @@ export default defineComponent({
       productType: '',
       price: 0.0,
       image: '',
+      saleDate: '',
     });
 
     const router = useRouter();

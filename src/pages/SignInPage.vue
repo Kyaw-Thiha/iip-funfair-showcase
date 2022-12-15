@@ -27,6 +27,20 @@
           @click="confirm"
         />
       </div>
+
+      <div>
+        <div class="text-center q-mt-lg">
+          <q-btn
+            class="confirm-btn"
+            label="Havn't created account yet? Sign up instead!"
+            flat
+            color="primary"
+            size="md"
+            :ripple="{ early: true }"
+            @click="router.push({ name: 'sign-up' })"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +61,7 @@ export default defineComponent({
       router.push({ name: 'home' });
     };
 
-    return { email, password, confirm };
+    return { email, password, confirm, router };
   },
 });
 </script>
